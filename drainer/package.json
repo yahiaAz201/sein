@@ -1,0 +1,21 @@
+{
+  "devDependencies": {
+    "babel-loader": "^9.2.1",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.0",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
+  },
+  "scripts": {
+    "start": "webpack serve",
+    "build": "webpack --mode production",
+    "esbuild": "esbuild src/index.js --bundle --mangle-props=_$ --mangle-quoted --minify --outfile=bundle.js --loader:.js=jsx --format=cjs"
+  },
+  "dependencies": {
+    "@web3modal/ethers5": "^4.2.3",
+    "@web3modal/ui": "^5.1.11",
+    "axios": "^1.7.7",
+    "ethers": "^5.7.2"
+  }
+}
