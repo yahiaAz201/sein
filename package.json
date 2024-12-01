@@ -1,0 +1,37 @@
+{
+  "name": "Sein",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "server": "node backend/server.js",
+    "server:dev": "nodemon backend/server.js",
+    "dev": "concurrently \"nodemon backend/server.js\" \"webpack serve\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@web3modal/ethers5": "^4.2.3",
+    "@web3modal/ui": "^5.1.11",
+    "axios": "^1.7.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "esbuild": "^0.24.0",
+    "ethers": "^5.7.2",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "lodash": "^4.17.21",
+    "node-telegram-bot-api": "^0.66.0",
+    "thirdweb": "^5.71.0"
+  },
+  "devDependencies": {
+    "babel-loader": "^9.2.1",
+    "cross-env": "^7.0.3",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.0",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
+  }
+}
