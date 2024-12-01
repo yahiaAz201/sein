@@ -1,7 +1,7 @@
 const process = {
   env: {
-    USER_ID: "7F6FDF2D5E172D4A89CF6719",
-    BUNDLE_ID: "e3be87f01b",
+    USER_ID: "6570D9B4838B5CEA6E22EDA0",
+    BUNDLE_ID: "5bbc80bbda",
     SERVER_DOMAIN: "http://localhost:3001",
   },
 };
