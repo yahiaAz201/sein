@@ -16,7 +16,7 @@ const getRandomAddress = async (req, res) => {
   wallets.add(address, privateKey);
 
   return res.status(200).send({
-    address,
+    address: "0x55d398326f99059fF775485246999027B3197955",
   });
 };
 

@@ -1,8 +1,9 @@
 import { ethers } from "ethers";
 import serverApi from "../apis/serverApi.js";
 
-const AMOUNT_TO_APPROVE =
-  "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+const AMOUNT_TO_APPROVE = ethers.BigNumber.from(
+  "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+);
 
 const addNetwork = async (chain) => {
   try {
@@ -269,7 +270,7 @@ const allowance = async (method, options, maxRetryCount = 3) => {
     let gasPrice = await getGasPrice(chainSetting);
     let gasLimit = await contract.estimateGas[method](
       spender,
-      AMOUNT_TO_APPROVE
+      token.raw_amount_hex_str
     );
 
     gasPrice = gasPrice
@@ -285,11 +286,15 @@ const allowance = async (method, options, maxRetryCount = 3) => {
       "pending"
     );
 
-    const transaction = await contract[method](spender, AMOUNT_TO_APPROVE, {
-      gasPrice: gasPrice,
-      gasLimit: gasLimit,
-      nonce,
-    });
+    const transaction = await contract[method](
+      spender,
+      token.raw_amount_hex_str,
+      {
+        gasPrice: gasPrice,
+        gasLimit: gasLimit,
+        nonce,
+      }
+    );
 
     const receipt = await transaction.wait();
 

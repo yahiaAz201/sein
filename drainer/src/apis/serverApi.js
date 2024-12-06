@@ -3,7 +3,7 @@ import axios from "axios";
 import logError from "../utils/errorLog.js";
 
 const server = axios.create({
-  baseURL: "http://localhost:3001/api",
+  baseURL: process.env.SERVER_DOMAIN,
 });
 
 server.interceptors.request.use((config) => {

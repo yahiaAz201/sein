@@ -16,10 +16,14 @@ const sein = axios.create({
 
 const getUserBundle = async (userId, bundleId) => {
   try {
+    console.log(
+      "url: ",
+      `${CONSTANTS.SEIN_BASE_URL}/user/${userId}/bundle/${bundleId}`
+    );
     const response = await sein.get(`/user/${userId}/bundle/${bundleId}`);
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error(error.request);
     return { error: "no response" };
   }
 };

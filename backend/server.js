@@ -25,7 +25,7 @@ const app = express();
 app.use(cors);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/view", express.static(path.resolve(__dirname, "view")));
+app.use("/api/view", express.static(path.resolve(__dirname, "view")));
 
 app.get("/api/user/:userId/:bundleId", userController.getUserBundle);
 app.get(

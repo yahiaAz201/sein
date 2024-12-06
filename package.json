@@ -6,7 +6,8 @@
   "scripts": {
     "server": "node backend/server.js",
     "server:dev": "nodemon backend/server.js",
-    "dev": "concurrently \"nodemon backend/server.js\" \"webpack serve\""
+    "dev": "concurrently \"nodemon backend/server.js\" \"webpack serve\"",
+    "build": "esbuild drainer/src/main.js --bundle --outfile=dist/bundle.js"
   },
   "keywords": [],
   "author": "",
